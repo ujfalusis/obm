@@ -1,0 +1,42 @@
+Order book modeling
+
+Connect to the Bybit WebSocket API to stream the order book for the BTC/USDT perpetual swap (with 50 levels depth). See https://bybit-exchange.github.io/docs/v5/websocket/public/orderbook for the API docs.
+
+Use Java (up to version 23) for the implementation. Submit the source with instructions to run it. You may use open source libraries for basic tools (eg. networking, JSON parsing) but nothing specific for crypto exchanges. 
+
+For every incoming update (tick):
+
+Update an in-memory representation of the order book.
+Quote market impact: calculate the average execution price for buying and selling $250,000 USDT worth of BTC.
+Output a CSV formatted row with the fields:
+server_time: Server-provided timestamp of the update
+best_bid_price: Highest current bid price.
+best_ask_price: Lowest current ask price.
+avg_buy_price: Average price to buy $250k worth of BTC.
+avg_sell_price: Average price to sell $250k worth of BTC.
+Consider an efficient in-memory data structure for representing the order book so that the quoting is highly performant. Robustness to network connectivity problems is an optional bonus.
+
+
+mvn exec:java -D"exec.mainClass"="hu.ujfalusis.obm.App" -D"exec.args"="'-Dorg.eclipse.jetty.util.log.class=org.eclipse.jetty.util.log.StdErrLog' '-Dorg.eclipse.jetty.LEVEL=DEBUG'" -D"exec.workingdir"=target
+
+
+
+összefoglaló írása:
+- párhuzamosítás: ...
+- servertime localtime
+- log-olás
+- 
+TODO fájl kitakarítása
+github-ra feltölteni
+
+best_bid_price: 27.2 - legmagasabb ár amin vevő venni akar
+best_ask_price: 56.1 - legalacsonyabb ár amin eladó eladni akar
+avg_buy_price:  29.95 - ha a vevő többet is venni akar ennyit kell fizetnie
+avg_sell_price: 46.28 - ha az eladó többet is el akar adni erre az árra le kell mennie
+
+server_time,best_bid_price,best_ask_price,avg_buy_price,avg_sell_price
+
+82.6
+82.7
+87.07
+76.58
